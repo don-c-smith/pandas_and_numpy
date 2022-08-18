@@ -67,9 +67,9 @@ print(array_zeroes)
 upper_bound_raw = input('Enter the upper-boundary integer: ')  # Start by getting the user's input
 # Per best-practices, we'll have a try/except to make sure the user didn't mess up
 try:
-    upper_bound = int(upper_bound_raw)
-except:
-    print('ERROR: Not an integer')
-    quit()
-defined_values = np.random.randint(0, upper_bound, 10)
-print(defined_values)
+    upper_bound = int(upper_bound_raw)  # See if we can re-type the input as an integer
+except:  # If not:
+    print('ERROR: Not an integer')  # Send an error message
+    quit()  # And quit the program
+defined_values = np.random.randint(0, upper_bound, 10)  # Otherwise, pass the numpy method the input integer as a bound
+print(defined_values)  # And print the array of random integers
