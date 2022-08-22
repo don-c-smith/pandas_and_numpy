@@ -62,10 +62,10 @@ print(matrix_ones)
 array_zeroes = np.zeros(8)  # This creates an array filled with eight zeroes
 print(array_zeroes)
 
-# Let's try a small integration
+# Let's try a small integration/exercise
 # We will create a 1x10 array of random integers ranging from 0 to 'x,' where x is a value input by the user
 upper_bound_raw = input('Enter the upper-boundary integer: ')  # Start by getting the user's input
-# Per best-practices, we'll have a try/except to make sure the user didn't mess up
+# Per best-practices, we'll use a try/except to make sure the user didn't mess up
 try:
     upper_bound = int(upper_bound_raw)  # See if we can re-type the input as an integer
 except:  # If not:
