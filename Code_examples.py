@@ -73,3 +73,70 @@ except:  # If not:
     quit()  # And quit the program
 defined_values = np.random.randint(0, upper_bound, 10)  # Otherwise, pass the numpy method the input integer as a bound
 print(defined_values)  # And print the array of random integers
+
+# Let's start working with mathematical operators
+# Start by defining two ranges, each filled with the integers from 1 to 9
+range_1 = np.arange(1, 10)  # Note: using 10 as the top bound does not put 10 in the array - 'up to but not including'
+range_2 = np.arange(1, 10)  # ibid
+
+# We can now perform what's called 'element-by-element addition'
+# This means that each element in one array will be added to its counterpart in the other array
+# You can do this by just adding the array objects together
+range_sum = range_1 + range_2
+print(range_1)
+print(range_2)
+print(range_sum)
+# You can see that in range_sum, the two ones have become a 2, the two 2s have become a 4, etc.
+
+# Here's how to square each element in an array
+range_square = range_1 ** 2  # Just square the array as you would normally
+print(range_square)  # Each element has been squared - 1 is 1, 2 is 4, 3 is 9, etc.
+
+# Here's how to take the square root of each element in an array
+range_sqrt = np.sqrt(range_square)  # Taking the square root of each element in the squared range
+print(range_sqrt)  # Note that this (as expected) puts us back at the original set of values in the unsquared range_1
+
+# Here's how to calculate the exponent of each element in an array
+range_exp = np.exp(range_1)
+print(range_exp)  # Returns the exponents of each element in the array
+
+# Now let's do some slicing and indexing of arrays - a crucial skill
+# Start with a new array
+array = np.array([3, 5, 6, 2, 8, 10, 20, 50])
+print(array)  # We see the array with these declared values
+# The first element in the array, 3, is at index position zero
+# To extract the first element in the array, we call for it the same way we'd call a standard list
+print(array[0])  # Returns 3
+
+# You can also 'slice' arrays just like you would a list
+print(array[:5])  # Extracting the first through the fifth elements of the array - returns [3 5 6 2 8]
+# Note that this is just like what you'd do to an ordinary list
+
+# Altering multiple values in a numpy array at once is called 'broadcasting'
+# Let's change the first four elements in the array to a value of 7
+array[0:4] = 7  # Set elements 1, 2, 3, and 4 equal to a value of 7
+# Remember that INDEX 4 is actually ELEMENT 5 - we're doing 'up to but not including' again
+print(array)  # Returns [7, 7, 7, 7, 8, 10, 20, 50]
+
+# Here are the tools to slice and extract from multi-dimensional arrays, or matrices
+# Start by creating a 4x4 matrix filled with random integers from 1 to 10
+matrix = np.random.randint(1, 10, (4, 4))  # 1 and 10 are the bounds, parenthetical (4,4) is the matrix construction
+print(matrix)  # Returns the randomly-filled 4x4 matrix
+
+# Extracting single rows from a matrix is similar to extracting single elements from a list
+print(matrix[0])  # Returns the first row of the matrix, at index 0
+print(matrix[1])  # Returns the second row of the matrix, at index 1
+print(matrix[-1])  # Returns the last row of the matrix using the '-1' trick - works for lists, too
+
+# Extracting single elements from a matrix requires providing a row and column position based on index values
+# Let's extract the second element of the first row
+print(matrix[0][1])  # The parameters are [row index position] [column index position]
+# Row index zero goes to the first row, column index 1 goes to the second column
+
+# You can also change the values of specific rows or elements in a matrix
+# Changing the elements in an entire row
+matrix[1] = 0  # Set all element in row 2 (index 1) equal to zero
+print(matrix)
+# Changing a specific element
+matrix[0][2] = 8  # Set the third element in the first row equal to 8
+print(matrix)  # Note the single changed value
