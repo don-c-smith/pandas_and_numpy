@@ -140,3 +140,63 @@ print(matrix)
 # Changing a specific element
 matrix[0][2] = 8  # Set the third element in the first row equal to 8
 print(matrix)  # Note the single changed value
+
+# It is possible to select elements of a matrix using conditional logic - we call this 'conditional selection'
+# Start by creating a 5x5 matrix filled with random integers between 1 and 10
+matrix = np.random.randint(1, 10, (5, 5))
+print(matrix)  # THe matrix appears as expected
+# Now we'll select only the elements in the matrix with a value greater than 7 and store them in a new array
+new_matrix = matrix[matrix > 7]  # Note the use of square brackets rather than parentheses
+print(new_matrix)  # Returns a single line of values greater than 7
+# Here's how you'd select only the odd numbers within the matrix
+# We'll need to use modulo and the == comparative operator
+odd_matrix = matrix[matrix % 2 == 1]  # If the remainder of each element when divided by 2 is 1, it's an odd number
+print(odd_matrix)
+# Now we'll fetch the even numbers
+even_matrix = matrix[matrix % 2 != 1]  # If the remainder of each number when divided by 2 is NOT 1, it's an even number
+print(even_matrix)
+
+# You can also use similar code to perform conditional *changes* to matrix content
+# For example, replacing all negative numbers in a matrix with zeroes and all odd numbers with -2s
+matrix = np.array([[2, 4, 6, 8], [-2, -4, -6, -8], [1, 3, 5, 7]])
+print(matrix)  # Appears as expected
+matrix[matrix < 0] = 0  # Replace all elements with values less than zero with zeroes
+print(matrix)  # All negative values in row two are now zeroes
+matrix[matrix % 2 == 1] = -2  # Replace all odd numbers (see line 153) with -2s
+print(matrix)  # All odd numbers in row three are now -2s
+
+# Moving to pandas!
+# Pandas is a data manipulation-and-analysis library that is built 'on top of' numpy
+# It uses a data structure called a dataframe - think of it as invisible, 'floating' Excel but in Python
+# Using dataframes mean we can store data in tabular form, i.e. in rows and columns
+# A 'series' is a term you'll hear used that basically means 'a single column of a dataframe'
+# You can create dataframes out of Python dictionaries, .csv files, HTML files, etc.
+
+# Dataframes can be created and filled manually
+# As an example, let's create a tiny fake bank client database
+# You'll note that a lot of this code is similar to manual definition of a standard Python dictionary
+bank_client_df = pd.DataFrame({'Bank Client ID': [111, 222, 333, 444],
+                              'Bank Client Name': ['Chanel', 'Steve', 'Mitch', 'Ryan'],
+                              'Net Worth [$]': [3500, 29000, 10000, 2000],
+                              'Years with Bank': [3, 4, 9, 5]})
+# Now we've defined the column headers and the associated values for each row. Entry order matters here, obviously
+print(bank_client_df)  # This now looks like a small Excel table
+print(type(bank_client_df))  # Returns a type of 'pandas.core.frame.DataFrame'
+
+# By using the head() and tail() functions and passing numbers as parameters, you can select the Q first or last rows
+print(bank_client_df.head(2))  # Returns the first two rows of the dataframe
+print(bank_client_df.tail(2))  # Returns the last two rows of the dataframe
+
+# You can run calculations based on information in a dataframe
+# For example, a dataframe containing a stock portfolio
+# We'll define a dataframe with three stocks, the number of shares held, and the price per share
+# Then, we'll calculate the total value of the portfolio
+portfolio = pd.DataFrame({'Stock Symbol': ['AAPL', 'GMC', 'RIVN'],
+                          'Stock Name': ['Apple Computer', 'General Motors Corporation', 'Rivian Automotive'],
+                          'Shares Held': [150, 225, 60],
+                          'Price per Share': [167.23, 38.56, 32.21]})
+print(portfolio)  # Prints as expected
+# Now let's calculate the total value of the portfolio
+total_dollar_value = portfolio['Price per Share'] * portfolio['Shares Held']  # Multiplying at the row-by-column level
+print(total_dollar_value)  # Returns the results of each number of shares multiplied by each stock's price
+print(total_dollar_value.sum())  # The sum() function adds up each of those three calculations to give the total value
