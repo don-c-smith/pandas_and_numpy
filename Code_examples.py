@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import lxml
 
 # Note that importing these libraries 'as' a shorter name just saves us time typing
 
@@ -200,3 +201,26 @@ print(portfolio)  # Prints as expected
 total_dollar_value = portfolio['Price per Share'] * portfolio['Shares Held']  # Multiplying at the row-by-column level
 print(total_dollar_value)  # Returns the results of each number of shares multiplied by each stock's price
 print(total_dollar_value.sum())  # The sum() function adds up each of those three calculations to give the total value
+
+# Pandas also has the capability to read HTML data and store the results in a dataframe
+# You obviously need a website with a table on it
+# You also need to import the lxml package or this won't work
+house_price_df = pd.read_html('https://www.livingin-canada.com/house-prices-canada.html')  # Here's the URL we want
+print(house_price_df[0])  # This will return the first table on the page
+print(house_price_df[1])  # Here's the other table
+
+# You can also use pandas to read .csv files
+friends_table = pd.read_csv('C:/Users/doncs/Documents/TestData.csv')  # Passing a filepath for a .csv file I made
+print(friends_table)  # And here's the table as we'd expect to see it in Excel
+
+# Here's how to select only specific rows from a dataframe
+# We'll use the friends table and select only the people older than 34
+print(friends_table[friends_table['Age'] > 34])  # Indexing to the dataframe, then the column, then filtering
+
+# Here's how to delete columns from a dataframe
+del friends_table['Married']
+print(friends_table)  # The 'Married' column is now gone
+
+# You can also perform mathematical operations on columns directly
+# Here's how to sum the ages of all the friends
+print(friends_table['Age'].sum())  # Returns 346 using the .sum() function
