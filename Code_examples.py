@@ -224,3 +224,39 @@ print(friends_table)  # The 'Married' column is now gone
 # You can also perform mathematical operations on columns directly
 # Here's how to sum the ages of all the friends
 print(friends_table['Age'].sum())  # Returns 346 using the .sum() function
+
+# Pandas also supports various uses for functions
+# Let's go back to the bank clients dataframe
+# We're going to write a function that increases all of the clients' net worth by 20%
+def networth_update(balance):  # This function requires that you pass it a value 'balance' to be modified
+    return balance * 1.2  # The function takes the current value and multiplies it by 1.2, adding 20%
+
+# To apply this to a specific column in a dataframe (net worth, in this case) do the following:
+print(bank_client_df['Net Worth [$]'].apply(networth_update))  # Each client's value has been increased by 20%
+
+# You can also apply standard functions like len() to columns in dataframes
+# For example, getting the length of each client's name
+print((bank_client_df['Bank Client Name'].apply(len)))  # Returns the number of characters in each client's name
+
+# Let's write a function that performs a slightly more complex calculation and then find a sum
+# We will triple each client's net worth plus $200, then calculate the sum of all the new net worth values
+# First we define the new function
+def networth_increase(balance):
+    return ((balance * 3) + 200)
+
+# Then we apply the new function and store the changed values in a new variable
+# We need a new variable because the function doesn't persistently change the values in the dataframe. It's not UPDATE.
+results = bank_client_df['Net Worth [$]'].apply(networth_increase)
+print(results.sum())  # Returns 134300, sum of new values
+
+# Here's how to sort and order dataframes using pandas
+# We'll start by sorting the bank clients dataframe in order of the clients' years with the bank
+print(bank_client_df.sort_values(by = 'Years with Bank'))  # Sort dataframe 'by' the values in a named column
+# The clients are now sorted in ascending order of years with the bank
+print(bank_client_df.sort_values(by = 'Years with Bank', ascending = False))
+# By setting the ascending order default to 'False', we sort is descending order
+# However, the change is not persistent! It's sorted at the time of printing, and the dataframe order remains as it was
+print(bank_client_df)  # Observe - the years with bank are out of order again
+# To make the change persistent, you need to set 'inplace' to True
+bank_client_df.sort_values(by = 'Years with Bank', inplace = True)  # This will create a persistent change
+print(bank_client_df)  # Now, printing the dataframe returns the rows in the sorted order we specified
