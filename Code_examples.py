@@ -221,6 +221,11 @@ print(friends_table[friends_table['Age'] > 34])  # Indexing to the dataframe, th
 del friends_table['Married']
 print(friends_table)  # The 'Married' column is now gone
 
+# Here's how to add a column and values to an existing dataframe using the insert() function
+friends_table.insert(5, 'URM', ['N', 'N', 'Y', 'N', 'N', 'N', 'N', 'N', 'N', 'N'], True)
+# We provide the index location for the column, its header name, its values, and whether it allows duplicate values
+print(friends_table)  # Now you can see the new URM column at its declared location to the right of 'Race'
+
 # You can also perform mathematical operations on columns directly
 # Here's how to sum the ages of all the friends
 print(friends_table['Age'].sum())  # Returns 346 using the .sum() function
@@ -254,9 +259,81 @@ print(results.sum())  # Returns 134300, sum of new values
 print(bank_client_df.sort_values(by = 'Years with Bank'))  # Sort dataframe 'by' the values in a named column
 # The clients are now sorted in ascending order of years with the bank
 print(bank_client_df.sort_values(by = 'Years with Bank', ascending = False))
-# By setting the ascending order default to 'False', we sort is descending order
-# However, the change is not persistent! It's sorted at the time of printing, and the dataframe order remains as it was
-print(bank_client_df)  # Observe - the years with bank are out of order again
+# By setting the ascending order default to 'False', we sort in descending order
+# However, the change is not persistent! It's just displayed as sorted at runtime; the dataframe order remains as it was
+print(bank_client_df)  # Observe - the years with bank values are out of order again
 # To make the change persistent, you need to set 'inplace' to True
 bank_client_df.sort_values(by = 'Years with Bank', inplace = True)  # This will create a persistent change
 print(bank_client_df)  # Now, printing the dataframe returns the rows in the sorted order we specified
+
+# Now, we'll look at concatenating and merging dataframes using Pandas
+# Start by manually defining and filling three dataframes
+# Here's dataframe 1:
+df1 = pd.DataFrame({'A': ['A0', 'A1', 'A2', 'A3'],
+                    'B': ['B0', 'B1', 'B2', 'B3'],
+                    'C': ['C0', 'C1', 'C2', 'C3'],
+                    'D': ['D0', 'D1', 'D2', 'D3']},
+                   index = [0, 1, 2, 3])  # This creates the index, which are essentially 'row identifiers'
+print(df1)  # Now you can see the whole dataframe with the index values 0-3, one for each row
+# Here's dataframe 2:
+df2 = pd.DataFrame({'A': ['A4', 'A5', 'A6', 'A7'],
+                    'B': ['B4', 'B5', 'B6', 'B7'],
+                    'C': ['C4', 'C5', 'C6', 'C7'],
+                    'D': ['D4', 'D5', 'D6', 'D7']},
+                   index = [4, 5, 6, 7])  # De-duplicating the index values just makes things easier
+print(df2)  # The second dataframe prints as expected
+# Here's dataframe 3:
+df3 = pd.DataFrame({'A': ['A8', 'A9', 'A10', 'A11'],
+                    'B': ['B8', 'B9', 'B10', 'B11'],
+                    'C': ['C8', 'C9', 'C10', 'C11'],
+                    'D': ['D8', 'D9', 'D10', 'D11']},
+                   index = [8, 9, 10, 11])  # De-duplicating the index values just makes things easier
+print(df3)  # The third dataframe prints as expected
+# Now we can concatenate these dataframes using Pandas' concat() function
+print(pd.concat([df1, df2, df3]))  # Pass the function the dataframes as comma-separated parameters
+# This concatenation works smoothly because we did a bunch of work with columns, indices, etc. to make it easy
+# In the real world, merging dataframes is usually not this 'clean' or simple
+
+# Let's do an exercise
+# We'll create two dataframes of bank clients, then another dataframe with their salary information
+# Then, we'll concatenate the two client dataframes and merge in their salary information
+# Then, we'll create another dataframe with all the info for a new single client and merge that client in
+# Starting with the two dataframes
+bank_df_1 = pd.DataFrame({'Bank Client ID': [1, 2, 3, 4, 5],
+                          'First Name': ['Annie', 'Bobby', 'Cathy', 'Dan', 'Eric'],
+                          'Last Name': ['Anderson', 'Brown', 'Catlover', 'Dierdorf', 'Erikson']})
+
+bank_df_2 = pd.DataFrame({'Bank Client ID': [6, 7, 8, 9, 10],
+                          'First Name': ['Frank', 'Gerald', 'Hector', 'Iris', 'Jack'],
+                          'Last Name': ['Furman', 'Green', 'Harrison', 'Ibsen', 'Johnson']})
+print(bank_df_1)
+print(bank_df_2)
+# The dataframes look as we'd expect them to look
+
+# Now we'll create the salary dataframe
+bank_df_salary = pd.DataFrame({'Bank Client ID': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                               'Salary': [25000, 35000, 56000, 78000, 125000, 30000, 67000, 86000, 97000, 110000]})
+print(bank_df_salary)  # Also looks as we'd expect it to look
+
+# Now we'll concatenate the client dataframes
+bank_df_all = pd.concat([bank_df_1, bank_df_2])
+print(bank_df_all)  # The two client dataframes are now combined
+
+# Now we'll merge in the salary data from the third dataframe using the merge() function
+bank_df_all = pd.merge(bank_df_all, bank_df_salary, on = 'Bank Client ID')  # Name dataframe to be merged, 'on' = 'Join'
+print(bank_df_all)  # Now we can see the salary data at the far right of the dataframe
+
+# Let's create a new customer with associated info and add them into the merged data
+# Just for fun, we'll define the new customer in a dictionary and convert the dictionary into a dataframe
+new_client = {'Bank Client ID': [11],
+              'First Name': ['Kyle'],
+              'Last Name': ['Kleppinger'],
+              'Salary': [400000]}
+print(new_client)  # The dictionary prints as you'd expect
+# Let's convert that dictionary for the single new client into a dataframe
+new_client_df = pd.DataFrame(new_client, columns = ['Bank Client ID', 'First Name', 'Last Name', 'Salary'])
+print(new_client_df)  # This looks as you'd expect it to look
+
+# Let's bring in the new client with concatenation
+bank_df_all = pd.concat([bank_df_all, new_client_df], axis= 0)  # The 'axis' value puts the new client at the bottom
+print(bank_df_all)
