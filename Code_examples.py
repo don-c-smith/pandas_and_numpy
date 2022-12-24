@@ -145,7 +145,7 @@ print(matrix)  # Note the single changed value
 # It is possible to select elements of a matrix using conditional logic - we call this 'conditional selection'
 # Start by creating a 5x5 matrix filled with random integers between 1 and 10
 matrix = np.random.randint(1, 10, (5, 5))
-print(matrix)  # THe matrix appears as expected
+print(matrix)  # The matrix appears as expected
 # Now we'll select only the elements in the matrix with a value greater than 7 and store them in a new array
 new_matrix = matrix[matrix > 7]  # Note the use of square brackets rather than parentheses
 print(new_matrix)  # Returns a single line of values greater than 7
